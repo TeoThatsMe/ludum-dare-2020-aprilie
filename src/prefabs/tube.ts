@@ -8,7 +8,7 @@ export class Tube extends Phaser.Sprite {
 
         game.add.existing(this);
 
-        if ( isCeilingTube ){
+        if ( isCeilingTube ) {
             this.setToCeilingTube();
         }
 

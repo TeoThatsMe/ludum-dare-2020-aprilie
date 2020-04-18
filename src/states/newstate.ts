@@ -13,7 +13,7 @@ export class Newstate extends Phaser.State {
         this.background = this.game.add.sprite(0, 0, "background");
         this.player = new Player(this.game, 75, 100);
         }
-    private setupInput(){
+    private setupInput() {
         this.upKey = this.input.keyboard.addKey(Phaser.Keyboard.UP);
         this.downKey = this.input.keyboard.addKey(Phaser.Keyboard.DOWN);
         this.leftKey = this.input.keyboard.addKey(Phaser.Keyboard.LEFT);
@@ -21,6 +21,3 @@ export class Newstate extends Phaser.State {
         }
 
     }
-
-
-}
