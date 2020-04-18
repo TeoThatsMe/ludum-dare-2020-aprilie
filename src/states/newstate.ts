@@ -27,6 +27,9 @@ export class Newstate extends Phaser.State {
         if ( this.rightKey.isDown ) {
             this.player.x += 10;
         }
+        if ( this.upKey.justDown ) {
+            this.player.jump();
+        }
     }
 
     }
