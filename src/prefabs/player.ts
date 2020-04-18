@@ -1,4 +1,4 @@
-import { Newstate } from "../states/newstate"
+import { Newstate } from "../states/newstate";
 import { Platform } from "./platform";
 
 export class Player extends Phaser.Sprite {
