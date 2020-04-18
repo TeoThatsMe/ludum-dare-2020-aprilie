@@ -1,17 +1,33 @@
+import { Newstate } from "../states/newstate"
+import { Platform } from "./platform";
+
 export class Player extends Phaser.Sprite {
     private vy = 0; // velocity on the y axis
-    private groundY = 480; // how low is the ground on screen?
+    private groundY = 510; // how low is the ground on screen?
     private gravity = 0.9;
+
+    private state: Newstate;
+
+    private lastPlatform: Platform;
+    private fallCondition: boolean;
 
     constructor(game: Phaser.Game, x: number, y: number) {
         super(game, x, y, "player");
-        this.anchor.setTo(0.5);
+        this.anchor.set(0.5, 1);
         this.scale.setTo(4);
         game.add.existing(this);
+
+        this.state = this.game.state.getCurrentState() as Newstate;
+
+        this.fallCondition = false;
     }
 
     public jump() {
         this.vy = -15;
+    }
+
+    public fall() {
+        this.fallCondition = true;
     }
 
     public update() {
@@ -20,6 +36,22 @@ export class Player extends Phaser.Sprite {
         if ( this.y > this.groundY ) {
             this.y = this.groundY;
             this.vy = 0;
+            this.fallCondition = false;
         }
+
+        this.state.platforms.forEach( (it: Platform) => {
+            if ( this.fallCondition && it === this.lastPlatform ) {
+                return;
+            }
+            if ( it.isPlayerAbove(this) ) {
+                const platformHeight = it.getHeight();
+                if ( this.y + this.vy > platformHeight ) {
+                    this.y = platformHeight;
+                    this.vy = 0;
+                    this.lastPlatform = it;
+                    this.fallCondition = false;
+                }
+            }
+        });
     }
 }
