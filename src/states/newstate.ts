@@ -1,4 +1,5 @@
 import { Player } from "../prefabs/player";
+import { Platform } from "../prefabs/platform";
 
 export class Newstate extends Phaser.State {
     private background;
@@ -9,10 +10,16 @@ export class Newstate extends Phaser.State {
     private rightKey: Phaser.Key;
     private yspeed = 0;
     private xspeed = 0;
+    public platforms = [];
     public create(): void {
         this.background = this.game.add.sprite(0, 0, "background");
         this.player = new Player(this.game, 75, 100);
         this.setupInput();
+
+        this.platforms.push( new Platform(this.game, 30, 200, 300) );
+        this.platforms.push( new Platform(this.game, 200, 450, 300) );
+        this.platforms.push( new Platform(this.game, 500, 340, 300) );
+        this.platforms.push( new Platform(this.game, 500, 280, 300) );
         }
     private setupInput() {
         this.upKey = this.input.keyboard.addKey(Phaser.Keyboard.W);
@@ -21,6 +28,11 @@ export class Newstate extends Phaser.State {
         this.rightKey = this.input.keyboard.addKey(Phaser.Keyboard.D);
         }
     public update() {
+        /*
+        this.platforms.forEach( (it: Platform) => {
+            it.move(2, 0);
+        });
+        */
         if ( this.leftKey.isDown ) {
             this.player.x -= 10;
         }
