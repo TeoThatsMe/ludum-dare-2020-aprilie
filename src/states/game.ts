@@ -63,7 +63,7 @@ export class Game extends Phaser.State {
     }
 
     private generateTubes() {
-        //Generator part
+        // Generator part
         for ( let i = 0; i < Config.tubes; i++ ) {
             const heightVariation = (Math.random() * (100 + 100) - 100);
 
