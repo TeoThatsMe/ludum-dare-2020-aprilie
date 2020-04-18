@@ -11,6 +11,8 @@ export class Player extends Phaser.Sprite {
     private lastPlatform: Platform;
     private fallCondition: boolean;
 
+    private isLanded: boolean;
+
     constructor(game: Phaser.Game, x: number, y: number) {
         super(game, x, y, "player");
         this.anchor.set(0.5, 1);
@@ -20,14 +22,24 @@ export class Player extends Phaser.Sprite {
         this.state = this.game.state.getCurrentState() as Newstate;
 
         this.fallCondition = false;
+        this.isLanded = false;
     }
 
     public jump() {
-        this.vy = -15;
+        if ( this.isLanded ) {
+            this.vy = -15;
+            this.isLanded = false;
+        }
     }
 
     public fall() {
         this.fallCondition = true;
+        this.isLanded = false;
+    }
+
+    // Called each frame the character sits on something
+    private onGrounded() {
+        this.isLanded = true;
     }
 
     public update() {
@@ -37,6 +49,7 @@ export class Player extends Phaser.Sprite {
             this.y = this.groundY;
             this.vy = 0;
             this.fallCondition = false;
+            this.onGrounded();
         }
 
         this.state.platforms.forEach( (it: Platform) => {
@@ -50,6 +63,7 @@ export class Player extends Phaser.Sprite {
                     this.vy = 0;
                     this.lastPlatform = it;
                     this.fallCondition = false;
+                    this.onGrounded();
                 }
             }
         });
